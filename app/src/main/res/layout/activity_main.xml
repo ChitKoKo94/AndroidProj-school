@@ -8,7 +8,8 @@
     //main vertical layout , including 7 rows vertically.
     //first row has url text box and fetch btn
     //next 5 rows contain 4 imageViews each horizontally
-    //last row show progress bar
+    //last row shows progress bar
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -212,9 +213,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        //reserved place to insert progress bar of download
+        <ProgressBar
+            android:id="@+id/probar"
+            android:layout_width="250dp"
+            android:layout_height="5dp"
+            android:progressTint="@color/teal_200"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:visibility="invisible"
+            android:progress="100"
+            style="@android:style/Widget.ProgressBar.Horizontal"/>
+
+        <TextView
+            android:id="@+id/protext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:visibility="invisible"/>
+
+
     </LinearLayout>
 
 </LinearLayout>
