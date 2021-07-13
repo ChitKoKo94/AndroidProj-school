@@ -2,6 +2,7 @@ package com.example.android_ca;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -48,6 +49,18 @@ public class MainActivity extends AppCompatActivity {
                         if (count == 20) break;
                     }
                     startDownloadImage(list);
+                }
+            });
+        }
+
+        // Test code to bring user to game. To delete later
+        Button game = findViewById(R.id.game);
+        if (game != null) {
+            game.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                    startActivity(intent);
                 }
             });
         }

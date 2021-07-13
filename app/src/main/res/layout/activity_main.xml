@@ -214,6 +214,13 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/game"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Go to game">
+        </androidx.appcompat.widget.AppCompatButton>
+
         //reserved place to insert progress bar of download
     </LinearLayout>
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">android_CA</string>
+    <string name="game_header">Flip the tiles!</string>
 </resources>
