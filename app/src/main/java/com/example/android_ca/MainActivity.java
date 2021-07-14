@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,26 +41,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String URL = "https://stocksnap.io";
-
         Button fetch = findViewById(R.id.fetch);
         if (fetch != null){
             fetch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
                     img_list.clear();
+                    EditText req_url = findViewById(R.id.url);
+                    String url = req_url.getText().toString();
                     if (bkgThread != null) {
                         bkgThread.interrupt();
-                        for(int p=0; p<20; p++) {
-                            ImageView imageView = findViewById(viewId_list[p]);
-                            imageView.setImageDrawable(getDrawable(R.drawable.sample));
-                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for(int p=0; p<20; p++) {
+                                    ImageView imageView = findViewById(viewId_list[p]);
+                                    imageView.setImageDrawable(getDrawable(R.drawable.sample));
+                                }
+                            }
+                        });
+
                     }
                     bkgThread = new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                Document document = Jsoup.connect(URL).get();
+                                Document document = Jsoup.connect(url).get();
                                 Elements tags = document.getElementsByTag("img");
                                 String src;
                                 for(int i=0; i<tags.size(); i++){
@@ -107,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                         status.setVisibility(View.VISIBLE);
                         status.setText(finalK+1+"/20 images downloaded...");
                         probar.setVisibility(View.VISIBLE);
-                        probar.setProgress((finalK+1)*10);
+                        probar.setProgress((finalK+1)*5);
                     }
                 });
             }
