@@ -7,6 +7,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class ImageDownloader {
+
+    //bowen
     protected boolean downloadImages(String imgURL, File destFile){
         try{
             URL url = new URL(imgURL);
