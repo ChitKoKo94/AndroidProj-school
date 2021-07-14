@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
 
         ImageDownloader imgDL = new ImageDownloader();
         for (int k = 0; k < 20; k++) {
+            if(bkgThread.isInterrupted())
+                return;
             if (imgDL.downloadImages(imglist.get(k), destFile_list.get(k))) {
                 int finalK = k;
                 runOnUiThread(new Runnable() {
