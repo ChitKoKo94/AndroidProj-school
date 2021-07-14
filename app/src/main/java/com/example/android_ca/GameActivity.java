@@ -14,6 +14,11 @@ public class GameActivity extends AppCompatActivity {
 
     GridView gridView;
 
+    int[] position = {0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5};
+    boolean[] isFlipped = {false, false, false, false, false, false, false, false, false, false, false, false};
+
+    private boolean gameStarted =false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
