@@ -2,8 +2,13 @@ package com.example.android_ca;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -18,14 +23,21 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     //vidya
+
+    private static final String EXTENSION_PATTERN = "([^\\s]+(\\.(?i)(jpg|png))$)";
+    List<String> list = new ArrayList<>();
+
+    ArrayList<ImageView> selectedImgs = new ArrayList<ImageView>();
 
     protected List<String> img_list = new ArrayList<>();
     protected Thread bkgThread;
@@ -87,6 +99,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+
+        Drawable border = getDrawable( R.drawable.border);
+        for(int id: viewId_list)
+        {
+            ImageView img = (ImageView)findViewById(id);
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (selectedImgs.contains(img)) {
+                        selectedImgs.remove(img);
+                        img.setBackgroundResource(0);
+                    } else {
+                        selectedImgs.add(img);
+                        img.setBackground(border);
+                    }
+
+                    if (selectedImgs.size() == 6) {
+                        saveImgs();
+                        Intent intent = new Intent(MainActivity.this, GameTest.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }
+
     }
 
     protected void startDownloadImage(List<String> imglist){
@@ -119,6 +157,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+        }
+    }
+
+    private void saveImgs(){
+        for (int i = 0; i<6; i++){
+            String imageName ="image" +i;
+            FileOutputStream fileOutputStream;
+            try {
+                fileOutputStream = getApplicationContext().openFileOutput(imageName, Context.MODE_PRIVATE);
+                Bitmap bitmap = ((BitmapDrawable)selectedImgs.get(i).getDrawable()).getBitmap();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+                fileOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
