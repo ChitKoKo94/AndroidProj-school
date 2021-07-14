@@ -92,12 +92,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        int[] viewId_list = {
-                R.id.imageView11,R.id.imageView12,R.id.imageView13,R.id.imageView14,R.id.imageView21,
-                R.id.imageView22,R.id.imageView23,R.id.imageView24,R.id.imageView31,R.id.imageView32,
-                R.id.imageView33,R.id.imageView34,R.id.imageView41,R.id.imageView42,R.id.imageView43,
-                R.id.imageView44,R.id.imageView51,R.id.imageView52,R.id.imageView53,R.id.imageView54
-        };
 
         Drawable border = getDrawable( R.drawable.border);
         for(int id: viewId_list)
