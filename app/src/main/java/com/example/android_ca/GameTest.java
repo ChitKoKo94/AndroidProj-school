@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -24,6 +25,8 @@ public class GameTest extends AppCompatActivity {
     private Bitmap[] bitmaparray = new Bitmap[12];
     private int firstClickId = -1;
     private int secondClickId = -1;
+    private int[] viewId_list;
+    Bitmap[] originalArray = new Bitmap[12];
 
 
 
@@ -43,24 +46,45 @@ public class GameTest extends AppCompatActivity {
         }
 
 
-        int[] viewId_list = {
-                R.id.A1,R.id.A2,R.id.A3,R.id.A4,R.id.A5,
-                R.id.A6,R.id.A7,R.id.A8,R.id.A9,R.id.A10,
-                R.id.A11,R.id.A12
+        viewId_list = new int[]{
+                R.id.A1, R.id.A2, R.id.A3, R.id.A4, R.id.A5,
+                R.id.A6, R.id.A7, R.id.A8, R.id.A9, R.id.A10,
+                R.id.A11, R.id.A12
         };
 
-        for (int j =0; j<12; j++){
+        Bitmap questionMarkPicture = BitmapFactory.decodeResource(getResources(), R.drawable.question);
+
+        for (int i = 0; i < 12; i++) {
+            originalArray[i] = questionMarkPicture;
+        }
+
+        // load images onto views for first time
+        refreshImgs();
+
+        for (int j = 0; j < 12; j++) {
             ImageView v = (ImageView)findViewById(viewId_list[j]);
-            v.setImageBitmap(bitmaparray[j]);
+            v.setImageBitmap(originalArray[j]);
+
+        }
+
+        for (int j =0; j < 12; j++){
+            ImageView v = (ImageView)findViewById(viewId_list[j]);
+            v.setImageBitmap(originalArray[j]);
             v.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
                     //check 2nd click and prevent self click
+
                     if(firstClickId != -1  && firstClickId != v.getId()){
                         for(int L = 0; L<12;L++){
                             if (viewId_list[L] == v.getId()) {
                                 secondClickId = L;
                                 System.out.println("SecondClick");
+
+                                // flip image for second click
+                                originalArray[secondClickId] = duplicatedImgs.get(secondClickId);
+                                refreshImgs();
+
                                 break;
                             }
                         }
@@ -72,6 +96,16 @@ public class GameTest extends AppCompatActivity {
                                 ImageView v1 = findViewById(viewId_list[firstClickId]);
                                 v1.setEnabled(true);
                                 System.out.println("No Match");
+                                originalArray[firstClickId] = questionMarkPicture;
+                                originalArray[secondClickId] = questionMarkPicture;
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        refreshImgs();
+                                    }
+                                }, 1000);
+
                         }
                         firstClickId = -1;
                         secondClickId = -1;
@@ -84,6 +118,11 @@ public class GameTest extends AppCompatActivity {
                                 firstClickId = k;
                                 v.setEnabled(false);
                                 System.out.println("FirstClick");
+
+                                // flip image for first click
+                                originalArray[firstClickId] = duplicatedImgs.get(firstClickId);
+                                refreshImgs();
+
                                 break;
                             }
                         }
@@ -120,5 +159,10 @@ public class GameTest extends AppCompatActivity {
         }
     }
 
-
+    private void refreshImgs() {
+        for (int i = 0; i < 12; i++) {
+            ImageView v = (ImageView)findViewById(viewId_list[i]);
+            v.setImageBitmap(originalArray[i]);
+        }
+    }
 }
