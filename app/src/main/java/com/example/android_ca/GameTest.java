@@ -44,8 +44,6 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_test);
 
-        Intent intent = new Intent(GameTest.this, GameEnd.class);
-
         getSelectedImgs();
         duplicateImgs();
 //        Collections.shuffle(duplicatedImgs);
@@ -79,7 +77,7 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                 @Override
                 public void onClick(View v){
                     mp.start();
-                    //check 2nd click and prevent self click
+                    //check 2nd click and prevent clicking on the same image
                     if(firstClickId != -1  && firstClickId != v.getId()){
                         for(int L = 0; L<12;L++){
                             if (viewId_list[L] == v.getId()) {
@@ -110,12 +108,13 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                                 chronometer.stop();
 
                                 temp0 = Integer.parseInt(chronometer.getText().toString().split(":")[0]);
-                                temp1 =Integer.parseInt(chronometer.getText().toString().split(":")[1]);
-                                temp=temp0*60+temp1;
+                                temp1 = Integer.parseInt(chronometer.getText().toString().split(":")[1]);
+                                temp  = temp0*60+temp1;
 
+                                Intent intent = getIntent();
                                 int player1 = intent.getIntExtra("P1Timing", 0);
-
-                                // to check if player has aldy played or not
+                                Intent intentToGameEnd = new Intent(GameTest.this,GameEnd.class);
+                                // check if the second player is currently playing by check if player1's time is available
                                 if (player1 != 0){
                                     if(player1 < temp)
                                         winner = "PLAYER 1 WINS";
@@ -124,20 +123,22 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                                     else
                                         winner ="DRAW";
 
-                                    intent.putExtra("pvp", "pvp");
-                                    intent.putExtra("winner", winner);
+                                    boolean pvp = true;
+                                    intentToGameEnd.putExtra("pvp", pvp);
+                                    intentToGameEnd.putExtra("winner", winner);
                                 }
-//                                endGame();
+                                //passing player1's timing to the End Game Screen
                                 String finalMessage = "Well done! You completed the game in " + temp + " seconds";
-                                intent.putExtra("message", finalMessage);
-                                intent.putExtra("P1Timing", temp);
-                                startActivity(intent);
+                                intentToGameEnd.putExtra("message", finalMessage);
+                                intentToGameEnd.putExtra("P1Timing", temp);
+                                startActivity(intentToGameEnd);
                             }
-                        } else {
+                        }
+                        //if the pictures does not match
+                        else {
                                 ImageView v1 = findViewById(viewId_list[firstClickId]);
                                 v1.setEnabled(true);
                                 System.out.println("No Match");
-
                                 clickCounter++;
 
                                 // if no match, change both images back to question marks
@@ -155,23 +156,22 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                         firstClickId = -1;
                         secondClickId = -1;
                     }
-                    //first click
+                    //this is the first click, we will get position of the click, and disable clicking the same image
                     else {
                         for (int k = 0; k<12; k++) {
-                            //to check the postiion of the button clicked
+                            //to check the position of the button clicked
                             if (viewId_list[k] == v.getId()) {
                                 firstClickId = k;
                                 v.setEnabled(false);
                                 System.out.println("FirstClick");
 
-                                // start timer
+                                //if this is the first time the player is clicking an image, start timer
                                 if (clickCounter == 0) {
                                     chronometer = (Chronometer) findViewById(R.id.chronometer);
                                     chronometer.setOnChronometerTickListener(GameTest.this);
                                     chronometer.start();
                                     chronometer.setBase(SystemClock.elapsedRealtime());// reset
                                 }
-
                                 clickCounter++;
 
                                 // flip image for first click
@@ -221,17 +221,9 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
         }
     }
 
-//    private void endGame() {
-//
-//        String finalMessage = "Well done! You completed the game in " + temp + " seconds";
-//        intent.putExtra("message", finalMessage);
-//        intent.putExtra("P1Timing", temp);
-//        startActivity(intent);
-//    }
-
     @Override
     public void onChronometerTick(Chronometer chronometer) {
-        String time = chronometer.getText().toString();
+//        String time = chronometer.getText().toString();
 //        if (time.equals("00:00")) {
 //            Toast.makeText(this, "Time is up~", Toast.LENGTH_SHORT).show();
 //        }
