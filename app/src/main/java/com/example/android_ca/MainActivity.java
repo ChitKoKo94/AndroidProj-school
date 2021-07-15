@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
     protected Thread bkgThread;
     private Intent musicIntent;
 
-
-
-
     int[] viewId_list = {
             R.id.imageView11,R.id.imageView12,R.id.imageView13,R.id.imageView14,R.id.imageView21,
             R.id.imageView22,R.id.imageView23,R.id.imageView24,R.id.imageView31,R.id.imageView32,
@@ -52,10 +49,50 @@ public class MainActivity extends AppCompatActivity {
             R.id.imageView44,R.id.imageView51,R.id.imageView52,R.id.imageView53,R.id.imageView54
     };
 
+    Button b1=findViewById(R.id.tag_flower);
+    Button b2=findViewById(R.id.tag_love);
+    Button b3=findViewById(R.id.tag_biz);
+    Button b4=findViewById(R.id.tag_travel);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url="https://stocksnap.io//search/flower";
+                EditText req_url=findViewById(R.id.url);
+                req_url.setText(url);
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url="https://stocksnap.io//search/love";
+                EditText req_url=findViewById(R.id.url);
+                req_url.setText(url);
+
+            }
+        });
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url="https://stocksnap.io//search/business";
+                EditText req_url=findViewById(R.id.url);
+                req_url.setText(url);
+            }
+        });
+        b4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url="https://stocksnap.io//search/travel";
+                EditText req_url=findViewById(R.id.url);
+                req_url.setText(url);
+            }
+        });
 
         String URL = "https://stocksnap.io";
 
