@@ -5,10 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-
     //main vertical layout , including 7 rows vertically.
-    //first row has url text box and fetch btn
+    //first row has url text box and fetch btn, 2nd row link buttons
     //next 5 rows contain 4 imageViews each horizontally
     //last row shows progress bar
 
@@ -86,7 +84,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView12"
@@ -94,7 +93,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView13"
@@ -102,7 +102,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView14"
@@ -110,8 +111,10 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -124,7 +127,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView22"
@@ -132,7 +136,8 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             android:layout_weight="1"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView23"
@@ -140,7 +145,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView24"
@@ -148,7 +154,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
     <LinearLayout
@@ -163,7 +170,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView32"
@@ -171,7 +179,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView33"
@@ -179,7 +188,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView34"
@@ -187,7 +197,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
     <LinearLayout
@@ -202,7 +213,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView42"
@@ -210,7 +222,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView43"
@@ -218,7 +231,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView44"
@@ -226,7 +240,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -242,7 +257,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView52"
@@ -250,7 +266,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView53"
@@ -258,7 +275,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imageView54"
@@ -266,7 +284,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
     <LinearLayout

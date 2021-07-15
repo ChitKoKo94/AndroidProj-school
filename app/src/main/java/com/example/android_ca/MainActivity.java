@@ -101,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
             fetch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
+                    for(int i:viewId_list){
+                        ImageView img = findViewById(i);
+                        img.setVisibility(View.VISIBLE);
+                    }
+
                     img_list.clear();
                     EditText req_url = findViewById(R.id.url);
                     String url = req_url.getText().toString();
