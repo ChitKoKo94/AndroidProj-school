@@ -7,31 +7,26 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class GameTest extends AppCompatActivity {
+public class GameTest extends AppCompatActivity implements Chronometer.OnChronometerTickListener {
 
     private List<Bitmap> selectedImgs = new ArrayList<>();
     private List<Bitmap> duplicatedImgs = new ArrayList<>();
-    private int clickedId;
-    private int count = 0;
     private Bitmap[] bitmaparray = new Bitmap[12];
     private int firstClickId = -1;
     private int secondClickId = -1;
     private int[] viewId_list;
-
     Bitmap[] originalArray = new Bitmap[12];
-
-
-
-
+    private int counter;
+    private Chronometer chronometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,42 +54,57 @@ public class GameTest extends AppCompatActivity {
             originalArray[i] = questionMarkPicture;
         }
 
-        // load default images onto views for first time
+        // load images onto views for first time
         refreshImgs();
 
         for (int j = 0; j < 12; j++) {
             ImageView v = (ImageView)findViewById(viewId_list[j]);
             v.setImageBitmap(originalArray[j]);
+
         }
 
         for (int j =0; j < 12; j++){
             ImageView v = (ImageView)findViewById(viewId_list[j]);
             v.setImageBitmap(originalArray[j]);
+            chronometer = (Chronometer) findViewById(R.id.chronometer);
+            chronometer.setOnChronometerTickListener(this);
             v.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
                     //check 2nd click and prevent self click
-
                     if(firstClickId != -1  && firstClickId != v.getId()){
                         for(int L = 0; L<12;L++){
                             if (viewId_list[L] == v.getId()) {
                                 secondClickId = L;
-//                                System.out.println("SecondClick");
+                                System.out.println("SecondClick");
 
                                 // flip image for second click
                                 originalArray[secondClickId] = duplicatedImgs.get(secondClickId);
                                 refreshImgs();
+
                                 break;
                             }
                         }
                         // check whether two images match
                         if(bitmaparray[firstClickId] == bitmaparray[secondClickId]){
                             v.setEnabled(false);
-//                            System.out.println("Matches");
+                            System.out.println("Matches");
+
+                            // if match, increase counter
+                            counter++;
+                            System.out.println(counter);
+
+                            // check for end game condition
+                            if (counter == 6) {
+                                chronometer.stop();
+                                endGame();
+                            }
                         } else {
                                 ImageView v1 = findViewById(viewId_list[firstClickId]);
                                 v1.setEnabled(true);
-//                                System.out.println("No Match");
+                                System.out.println("No Match");
+
+                                // if no match, change both images back to question marks
                                 originalArray[firstClickId] = questionMarkPicture;
                                 originalArray[secondClickId] = questionMarkPicture;
                                 Handler handler = new Handler();
@@ -116,11 +126,13 @@ public class GameTest extends AppCompatActivity {
                             if (viewId_list[k] == v.getId()) {
                                 firstClickId = k;
                                 v.setEnabled(false);
-//                                System.out.println("FirstClick");
+                                System.out.println("FirstClick");
+                                chronometer.start();
 
                                 // flip image for first click
                                 originalArray[firstClickId] = duplicatedImgs.get(firstClickId);
                                 refreshImgs();
+
                                 break;
                             }
                         }
@@ -161,6 +173,18 @@ public class GameTest extends AppCompatActivity {
         for (int i = 0; i < 12; i++) {
             ImageView v = (ImageView)findViewById(viewId_list[i]);
             v.setImageBitmap(originalArray[i]);
+        }
+    }
+
+    private void endGame() {
+        Toast.makeText(this, "Game ended!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onChronometerTick(Chronometer chronometer) {
+        String time = chronometer.getText().toString();
+        if (time.equals("00:00")) {
+            Toast.makeText(this, "Time is up~", Toast.LENGTH_SHORT).show();
         }
     }
 }
