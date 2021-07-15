@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -49,15 +50,16 @@ public class MainActivity extends AppCompatActivity {
             R.id.imageView44,R.id.imageView51,R.id.imageView52,R.id.imageView53,R.id.imageView54
     };
 
-    Button b1=findViewById(R.id.tag_flower);
-    Button b2=findViewById(R.id.tag_love);
-    Button b3=findViewById(R.id.tag_biz);
-    Button b4=findViewById(R.id.tag_travel);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button b1=(Button)findViewById(R.id.tag_flower);
+        Button b2=(Button)findViewById(R.id.tag_love);
+        Button b3=(Button)findViewById(R.id.tag_biz);
+        Button b4=(Button)findViewById(R.id.tag_travel);
 
 
         b1.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String URL = "https://stocksnap.io";
+
 
         //music
         musicIntent = new Intent(getApplicationContext(), MusicService.class);
@@ -109,10 +111,12 @@ public class MainActivity extends AppCompatActivity {
                     img_list.clear();
                     EditText req_url = findViewById(R.id.url);
                     String url = req_url.getText().toString();
+
                     if (bkgThread != null) {
                         bkgThread.interrupt();
                         for(int p=0; p<20; p++) {
                             ImageView imageView = findViewById(viewId_list[p]);
+
                             imageView.setImageDrawable(getDrawable(R.drawable.sample));
                         }
                     } else {
@@ -130,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                                 return;
                             }
                             try {
-                                Document document = Jsoup.connect(URL).get();
+                                Document document = Jsoup.connect(url).get();
                                 Elements tags = document.getElementsByTag("img");
                                 String src;
                                 for(int i=0; i<tags.size(); i++){

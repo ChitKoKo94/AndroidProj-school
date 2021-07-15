@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -26,14 +27,17 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
     private Bitmap[] bitmaparray = new Bitmap[12];
     private int firstClickId = -1;
     private int secondClickId = -1;
+
     private int[] viewId_list;
     Bitmap[] originalArray = new Bitmap[12];
     private int counter;
     private int clickCounter = 0;
     private Chronometer chronometer;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        stopService(new Intent(getApplicationContext(), MusicService.class));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_test);
 
@@ -63,17 +67,22 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
 
         for (int j = 0; j < 12; j++) {
             ImageView v = (ImageView)findViewById(viewId_list[j]);
+
             v.setImageBitmap(originalArray[j]);
 
         }
 
         for (int j =0; j < 12; j++){
             ImageView v = (ImageView)findViewById(viewId_list[j]);
+            final MediaPlayer mp=MediaPlayer.create(this,R.raw.click_sound);
+
             v.setImageBitmap(originalArray[j]);
+
 
             v.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
+                    mp.start();
                     //check 2nd click and prevent self click
                     if(firstClickId != -1  && firstClickId != v.getId()){
                         for(int L = 0; L<12;L++){
@@ -92,6 +101,8 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                         if(bitmaparray[firstClickId] == bitmaparray[secondClickId]){
                             v.setEnabled(false);
                             System.out.println("Matches");
+
+                            mp.start();
 
                             // if match, increase counter
                             counter++;
