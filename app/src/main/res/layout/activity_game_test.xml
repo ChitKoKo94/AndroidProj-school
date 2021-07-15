@@ -5,11 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    //main vertical layout , including 7 rows vertically.
-    //first row has url text box and fetch btn
-    //next 5 rows contain 4 imageViews each horizontally
-    //last row show progress bar
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
 
+        // to place timer and message
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -128,9 +130,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="0.5"
+        android:orientation="horizontal"
+        android:gravity="center">
 
-        //reserved place to insert progress bar of download
+        <Button
+            android:id = "@+id/restartGameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Replay"
+            android:textAllCaps="false"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id = "@+id/restartMainButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Back to Main"
+            android:textAllCaps="false"
+            android:visibility="invisible"/>
+
+
     </LinearLayout>
 
 </LinearLayout>

@@ -26,6 +26,7 @@ public class GameTest extends AppCompatActivity {
     private int firstClickId = -1;
     private int secondClickId = -1;
     private int[] viewId_list;
+
     Bitmap[] originalArray = new Bitmap[12];
 
 
@@ -58,13 +59,12 @@ public class GameTest extends AppCompatActivity {
             originalArray[i] = questionMarkPicture;
         }
 
-        // load images onto views for first time
+        // load default images onto views for first time
         refreshImgs();
 
         for (int j = 0; j < 12; j++) {
             ImageView v = (ImageView)findViewById(viewId_list[j]);
             v.setImageBitmap(originalArray[j]);
-
         }
 
         for (int j =0; j < 12; j++){
@@ -79,23 +79,22 @@ public class GameTest extends AppCompatActivity {
                         for(int L = 0; L<12;L++){
                             if (viewId_list[L] == v.getId()) {
                                 secondClickId = L;
-                                System.out.println("SecondClick");
+//                                System.out.println("SecondClick");
 
                                 // flip image for second click
                                 originalArray[secondClickId] = duplicatedImgs.get(secondClickId);
                                 refreshImgs();
-
                                 break;
                             }
                         }
                         // check whether two images match
                         if(bitmaparray[firstClickId] == bitmaparray[secondClickId]){
                             v.setEnabled(false);
-                            System.out.println("Matches");
+//                            System.out.println("Matches");
                         } else {
                                 ImageView v1 = findViewById(viewId_list[firstClickId]);
                                 v1.setEnabled(true);
-                                System.out.println("No Match");
+//                                System.out.println("No Match");
                                 originalArray[firstClickId] = questionMarkPicture;
                                 originalArray[secondClickId] = questionMarkPicture;
                                 Handler handler = new Handler();
@@ -117,12 +116,11 @@ public class GameTest extends AppCompatActivity {
                             if (viewId_list[k] == v.getId()) {
                                 firstClickId = k;
                                 v.setEnabled(false);
-                                System.out.println("FirstClick");
+//                                System.out.println("FirstClick");
 
                                 // flip image for first click
                                 originalArray[firstClickId] = duplicatedImgs.get(firstClickId);
                                 refreshImgs();
-
                                 break;
                             }
                         }
