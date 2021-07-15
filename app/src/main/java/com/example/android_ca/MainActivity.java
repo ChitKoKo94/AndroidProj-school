@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -90,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 req_url.setText(url);
             }
         });
+
+
 
         //music
         musicIntent = new Intent(getApplicationContext(), MusicService.class);
