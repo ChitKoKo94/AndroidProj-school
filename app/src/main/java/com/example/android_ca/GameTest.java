@@ -27,7 +27,8 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
     private Bitmap[] bitmaparray = new Bitmap[12];
     private int firstClickId = -1;
     private int secondClickId = -1;
-    private Bitmap[] originalArray = new Bitmap[12];
+    private int[] viewId_list;
+    Bitmap[] originalArray = new Bitmap[12];
     private int counter;
     private int clickCounter = 0;
     private Chronometer chronometer;
@@ -246,6 +247,16 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                 startActivity(intent);
             }
         });
+        //Toast.makeText(this, "Game ended!", Toast.LENGTH_SHORT).show();
+
+        int temp0 = Integer.parseInt(chronometer.getText().toString().split(":")[0]);
+        int temp1 =Integer.parseInt(chronometer.getText().toString().split(":")[1]);
+        int temp=temp0*60+temp1;
+
+        Intent intent = new Intent(this, GameEnd.class);
+        String finalMessage = "Well done! You completed the game in " + temp + " seconds";
+        intent.putExtra("message", finalMessage);
+        startActivity(intent);
     }
 
     @Override
