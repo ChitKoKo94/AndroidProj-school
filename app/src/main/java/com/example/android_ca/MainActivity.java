@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String EXTENSION_PATTERN = "([^\\s]+(\\.(?i)(jpg|png))$)";
     List<String> list = new ArrayList<>();
-
+    private boolean canDownload = true;
     ArrayList<ImageView> selectedImgs = new ArrayList<ImageView>();
 
     protected List<String> img_list = new ArrayList<>();
@@ -59,10 +59,14 @@ public class MainActivity extends AppCompatActivity {
             fetch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
-                    img_list.clear();
                     if (bkgThread != null) {
                         bkgThread.interrupt();
                         for(int p=0; p<20; p++) {
+                            ImageView imageView = findViewById(viewId_list[p]);
+                            imageView.setImageDrawable(getDrawable(R.drawable.sample));
+                        }
+                    } else {
+                        for (int p = 0; p < 20; p++) {
                             ImageView imageView = findViewById(viewId_list[p]);
                             imageView.setImageDrawable(getDrawable(R.drawable.sample));
                         }
@@ -70,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
                     bkgThread = new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            img_list.clear();
+                            if(bkgThread.isInterrupted()){
+                                canDownload = false;
+                                return;
+                            }
                             try {
                                 Document document = Jsoup.connect(URL).get();
                                 Elements tags = document.getElementsByTag("img");
@@ -84,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                             } catch (IOException e){
                                 e.printStackTrace();
                             }
+                            canDownload = true;
                             startDownloadImage(img_list);
                         }
                     });
@@ -132,8 +142,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ImageDownloader imgDL = new ImageDownloader();
-        for (int k = 0; k < 20; k++) {
-            if (imgDL.downloadImages(imglist.get(k), destFile_list.get(k))) {
+        for (int k = 0; k < imglist.size(); k++) {
+            if (!canDownload) {
+                break;
+            }
+            else if (imgDL.downloadImages(imglist.get(k), destFile_list.get(k))) {
                 int finalK = k;
                 runOnUiThread(new Runnable() {
                     @Override
@@ -145,11 +158,12 @@ public class MainActivity extends AppCompatActivity {
                         status.setVisibility(View.VISIBLE);
                         status.setText(finalK+1+"/20 images downloaded...");
                         probar.setVisibility(View.VISIBLE);
-                        probar.setProgress((finalK+1)*10);
+                        probar.setProgress((finalK+1)*5);
                     }
                 });
             }
         }
+        canDownload = true;
     }
 
     private void saveImgs(){
