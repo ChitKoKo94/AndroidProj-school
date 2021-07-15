@@ -28,28 +28,27 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
     private Bitmap[] bitmaparray = new Bitmap[12];
     private int firstClickId = -1;
     private int secondClickId = -1;
-    private int[] viewId_list;
     Bitmap[] originalArray = new Bitmap[12];
-    private int counter;
     private int clickCounter = 0;
     private Chronometer chronometer;
-    private long start, stop, duration;
-
+    private int temp0, temp1, temp, counter;
+    private String winner;
     private int[] viewId_list = {
         R.id.A1, R.id.A2, R.id.A3, R.id.A4, R.id.A5,
                 R.id.A6, R.id.A7, R.id.A8, R.id.A9, R.id.A10,
                 R.id.A11, R.id.A12
     };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         stopService(new Intent(getApplicationContext(), MusicService.class));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_test);
 
+        Intent intent = new Intent(GameTest.this, GameEnd.class);
+
         getSelectedImgs();
         duplicateImgs();
-        Collections.shuffle(duplicatedImgs);
+//        Collections.shuffle(duplicatedImgs);
         for(int i=0; i<12; i++)
         {
             bitmaparray[i] = duplicatedImgs.get(i);
@@ -99,7 +98,6 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                         if(bitmaparray[firstClickId] == bitmaparray[secondClickId]){
                             v.setEnabled(false);
                             System.out.println("Matches");
-
                             mp.start();
 
                             // if match, increase counter
@@ -110,23 +108,30 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                             // check for end game condition
                             if (counter == 6) {
                                 chronometer.stop();
-                                stop = System.currentTimeMillis();
-                                duration = stop - start;
-                                System.out.println(duration);
-                                Intent intent = getIntent();
-                                long player1 = intent.getLongExtra("Timing", 0);
-                                if (player1 != 0){
-                                    Button player2 = findViewById(R.id.player2);
-                                    player2.setVisibility(View.INVISIBLE);
 
-                                    if(player1 < duration)
-                                        System.out.println("player1 win");
-                                    else if (player1 > duration)
-                                        System.out.println("player2 win");
+                                temp0 = Integer.parseInt(chronometer.getText().toString().split(":")[0]);
+                                temp1 =Integer.parseInt(chronometer.getText().toString().split(":")[1]);
+                                temp=temp0*60+temp1;
+
+                                int player1 = intent.getIntExtra("P1Timing", 0);
+
+                                // to check if player has aldy played or not
+                                if (player1 != 0){
+                                    if(player1 < temp)
+                                        winner = "PLAYER 1 WINS";
+                                    else if (player1 > temp)
+                                        winner = "PLAYER 2 WINS";
                                     else
-                                        System.out.println("Draw .. both stupid");
+                                        winner ="DRAW";
+
+                                    intent.putExtra("pvp", "pvp");
+                                    intent.putExtra("winner", winner);
                                 }
-                                endGame();
+//                                endGame();
+                                String finalMessage = "Well done! You completed the game in " + temp + " seconds";
+                                intent.putExtra("message", finalMessage);
+                                intent.putExtra("P1Timing", temp);
+                                startActivity(intent);
                             }
                         } else {
                                 ImageView v1 = findViewById(viewId_list[firstClickId]);
@@ -165,7 +170,6 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                                     chronometer.setOnChronometerTickListener(GameTest.this);
                                     chronometer.start();
                                     chronometer.setBase(SystemClock.elapsedRealtime());// reset
-                                    start = System.currentTimeMillis();
                                 }
 
                                 clickCounter++;
@@ -217,55 +221,13 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
         }
     }
 
-    private void endGame() {
-        Toast.makeText(this, "Game ended!", Toast.LENGTH_SHORT).show();
-
-        Button player2 = findViewById(R.id.player2);
-        Button restart = findViewById(R.id.restartGameButton);
-        Button main = findViewById(R.id.restartMainButton);
-        player2.setVisibility(View.VISIBLE);
-        main.setVisibility(View.VISIBLE);
-        restart.setVisibility(View.VISIBLE);
-
-        player2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = getIntent();
-                intent.putExtra("Timing",duration);
-                finish();
-                startActivity(intent);
-            }
-        });
-
-        // restart btn will restart game
-        restart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
-            }
-        });
-
-        main.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GameTest.this, MainActivity.class);
-                finish();
-                startActivity(intent);
-            }
-        });
-        //Toast.makeText(this, "Game ended!", Toast.LENGTH_SHORT).show();
-
-        int temp0 = Integer.parseInt(chronometer.getText().toString().split(":")[0]);
-        int temp1 =Integer.parseInt(chronometer.getText().toString().split(":")[1]);
-        int temp=temp0*60+temp1;
-
-        Intent intent = new Intent(this, GameEnd.class);
-        String finalMessage = "Well done! You completed the game in " + temp + " seconds";
-        intent.putExtra("message", finalMessage);
-        startActivity(intent);
-    }
+//    private void endGame() {
+//
+//        String finalMessage = "Well done! You completed the game in " + temp + " seconds";
+//        intent.putExtra("message", finalMessage);
+//        intent.putExtra("P1Timing", temp);
+//        startActivity(intent);
+//    }
 
     @Override
     public void onChronometerTick(Chronometer chronometer) {

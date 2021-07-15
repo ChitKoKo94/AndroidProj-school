@@ -171,43 +171,4 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/winner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <Button
-            android:id = "@+id/player2"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Player2"
-            android:textAllCaps="false"
-            android:visibility="invisible"/>
-
-        <Button
-            android:id = "@+id/restartGameButton"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Replay"
-            android:textAllCaps="false"
-            android:visibility="invisible"/>
-
-        <Button
-            android:id = "@+id/restartMainButton"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Back to Main"
-            android:textAllCaps="false"
-            android:visibility="invisible"/>
-
-    </LinearLayout>
-
 </LinearLayout>
