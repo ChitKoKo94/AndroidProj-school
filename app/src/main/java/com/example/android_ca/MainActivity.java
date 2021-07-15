@@ -49,30 +49,29 @@ public class MainActivity extends AppCompatActivity {
             R.id.imageView44,R.id.imageView51,R.id.imageView52,R.id.imageView53,R.id.imageView54
     };
 
-    Button b1=findViewById(R.id.tag_flower);
-    Button b2=findViewById(R.id.tag_love);
-    Button b3=findViewById(R.id.tag_biz);
-    Button b4=findViewById(R.id.tag_travel);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button b1=findViewById(R.id.tag_flower);
+        Button b2=findViewById(R.id.tag_love);
+        Button b3=findViewById(R.id.tag_biz);
+        Button b4=findViewById(R.id.tag_travel);
+        EditText req_url=findViewById(R.id.url);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url="https://stocksnap.io//search/flower";
-                EditText req_url=findViewById(R.id.url);
+                String url="https://stocksnap.io/search/flower";
                 req_url.setText(url);
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url="https://stocksnap.io//search/love";
-                EditText req_url=findViewById(R.id.url);
+                String url="https://stocksnap.io/search/love";
                 req_url.setText(url);
 
             }
@@ -80,21 +79,17 @@ public class MainActivity extends AppCompatActivity {
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url="https://stocksnap.io//search/business";
-                EditText req_url=findViewById(R.id.url);
+                String url="https://stocksnap.io/search/business";
                 req_url.setText(url);
             }
         });
         b4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url="https://stocksnap.io//search/travel";
-                EditText req_url=findViewById(R.id.url);
+                String url="https://stocksnap.io/search/travel";
                 req_url.setText(url);
             }
         });
-
-        String URL = "https://stocksnap.io";
 
         //music
         musicIntent = new Intent(getApplicationContext(), MusicService.class);
@@ -130,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                                 return;
                             }
                             try {
-                                Document document = Jsoup.connect(URL).get();
+                                Document document = Jsoup.connect(url).get();
                                 Elements tags = document.getElementsByTag("img");
                                 String src;
                                 for(int i=0; i<tags.size(); i++){
@@ -171,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     if (selectedImgs.size() == 6) {
                         saveImgs();
                         Intent intent = new Intent(MainActivity.this, GameTest.class);
+                        finish();
                         startActivity(intent);
                     }
                 }
@@ -231,14 +227,4 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-//    protected void progressbar(int num){
-//        TextView status = findViewById(R.id.protext);
-//        ProgressBar probar = findViewById(R.id.probar);
-//
-//        status.setVisibility(View.VISIBLE);
-//        status.setText(num+"/20 images downloaded...");
-//        probar.setVisibility(View.VISIBLE);
-//        probar.setProgress(num);
-//    }
 }

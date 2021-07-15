@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
@@ -26,12 +27,17 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
     private Bitmap[] bitmaparray = new Bitmap[12];
     private int firstClickId = -1;
     private int secondClickId = -1;
-    private int[] viewId_list;
-    Bitmap[] originalArray = new Bitmap[12];
+    private Bitmap[] originalArray = new Bitmap[12];
     private int counter;
     private int clickCounter = 0;
     private Chronometer chronometer;
+    private long start, stop, duration;
 
+    private int[] viewId_list = {
+        R.id.A1, R.id.A2, R.id.A3, R.id.A4, R.id.A5,
+                R.id.A6, R.id.A7, R.id.A8, R.id.A9, R.id.A10,
+                R.id.A11, R.id.A12
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +50,6 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
         {
             bitmaparray[i] = duplicatedImgs.get(i);
         }
-
-
-        viewId_list = new int[]{
-                R.id.A1, R.id.A2, R.id.A3, R.id.A4, R.id.A5,
-                R.id.A6, R.id.A7, R.id.A8, R.id.A9, R.id.A10,
-                R.id.A11, R.id.A12
-        };
 
         Bitmap questionMarkPicture = BitmapFactory.decodeResource(getResources(), R.drawable.question);
 
@@ -89,17 +88,32 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                             }
                         }
                         // check whether two images match
+                        TextView counterText = findViewById(R.id.count);
                         if(bitmaparray[firstClickId] == bitmaparray[secondClickId]){
                             v.setEnabled(false);
                             System.out.println("Matches");
 
                             // if match, increase counter
                             counter++;
+                            counterText.setText(counter + " of 6 images matched");
                             System.out.println(counter);
 
                             // check for end game condition
                             if (counter == 6) {
                                 chronometer.stop();
+                                stop = System.currentTimeMillis();
+                                duration = stop - start;
+                                System.out.println(duration);
+                                Intent intent = getIntent();
+                                long player1 = intent.getLongExtra("Timing", 0);
+                                if (player1 != 0){
+                                    if(player1 > duration)
+                                        System.out.println("player1 win");
+                                    else if (player1 < duration)
+                                        System.out.println("player2 win");
+                                    else
+                                        System.out.println("Draw .. both stupid");
+                                }
                                 endGame();
                             }
                         } else {
@@ -139,6 +153,7 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                                     chronometer.setOnChronometerTickListener(GameTest.this);
                                     chronometer.start();
                                     chronometer.setBase(SystemClock.elapsedRealtime());// reset
+                                    start = System.currentTimeMillis();
                                 }
 
                                 clickCounter++;
@@ -192,10 +207,23 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
 
     private void endGame() {
         Toast.makeText(this, "Game ended!", Toast.LENGTH_SHORT).show();
+
+        Button player2 = findViewById(R.id.player2);
         Button restart = findViewById(R.id.restartGameButton);
         Button main = findViewById(R.id.restartMainButton);
+        player2.setVisibility(View.VISIBLE);
         main.setVisibility(View.VISIBLE);
         restart.setVisibility(View.VISIBLE);
+
+        player2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getIntent();
+                intent.putExtra("Timing",duration);
+                finish();
+                startActivity(intent);
+            }
+        });
 
         // restart btn will restart game
         restart.setOnClickListener(new View.OnClickListener() {
@@ -206,13 +234,22 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                 startActivity(intent);
             }
         });
+
+        main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameTest.this, MainActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void onChronometerTick(Chronometer chronometer) {
         String time = chronometer.getText().toString();
-        if (time.equals("00:00")) {
-            Toast.makeText(this, "Time is up~", Toast.LENGTH_SHORT).show();
-        }
+//        if (time.equals("00:00")) {
+//            Toast.makeText(this, "Time is up~", Toast.LENGTH_SHORT).show();
+//        }
     }
 }
