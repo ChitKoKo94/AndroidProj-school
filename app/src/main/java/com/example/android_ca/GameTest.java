@@ -107,9 +107,12 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                                 Intent intent = getIntent();
                                 long player1 = intent.getLongExtra("Timing", 0);
                                 if (player1 != 0){
-                                    if(player1 > duration)
+                                    Button player2 = findViewById(R.id.player2);
+                                    player2.setVisibility(View.INVISIBLE);
+
+                                    if(player1 < duration)
                                         System.out.println("player1 win");
-                                    else if (player1 < duration)
+                                    else if (player1 > duration)
                                         System.out.println("player2 win");
                                     else
                                         System.out.println("Draw .. both stupid");
