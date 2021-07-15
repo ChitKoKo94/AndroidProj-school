@@ -3,6 +3,7 @@ package com.example.android_ca;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,9 @@ public class GameEnd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_end);
+
+        final MediaPlayer mp=MediaPlayer.create(this,R.raw.complete);
+        mp.start();
 
         Intent intent = getIntent();
 

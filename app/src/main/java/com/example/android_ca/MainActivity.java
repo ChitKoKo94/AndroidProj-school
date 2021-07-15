@@ -92,12 +92,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         //music
         musicIntent = new Intent(getApplicationContext(), MusicService.class);
         startService(new Intent(getApplicationContext(), MusicService.class));
-
 
         Button fetch = findViewById(R.id.fetch);
         if (fetch != null){
@@ -152,12 +149,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         Drawable border = getDrawable( R.drawable.border);
+        final MediaPlayer mp=MediaPlayer.create(this,R.raw.click_sound);
         for(int id: viewId_list)
         {
             ImageView img = (ImageView)findViewById(id);
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mp.start();
                     if (selectedImgs.contains(img)) {
                         selectedImgs.remove(img);
                         img.setBackgroundResource(0);

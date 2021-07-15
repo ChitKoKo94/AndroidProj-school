@@ -46,7 +46,7 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
 
         getSelectedImgs();
         duplicateImgs();
-//        Collections.shuffle(duplicatedImgs);
+        Collections.shuffle(duplicatedImgs);
         for(int i=0; i<12; i++)
         {
             bitmaparray[i] = duplicatedImgs.get(i);
@@ -67,9 +67,13 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
 
         }
 
+        //setting clicking sound, sucessful match sound and fail match sound
+        final MediaPlayer mp=MediaPlayer.create(this,R.raw.click_sound);
+        final MediaPlayer successSound = MediaPlayer.create(this,R.raw.success);
+        final MediaPlayer wrongSound = MediaPlayer.create(this,R.raw.fail);
+
         for (int j =0; j < 12; j++){
             ImageView v = (ImageView)findViewById(viewId_list[j]);
-            final MediaPlayer mp=MediaPlayer.create(this,R.raw.click_sound);
 
             v.setImageBitmap(originalArray[j]);
 
@@ -95,8 +99,7 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                         TextView counterText = findViewById(R.id.count);
                         if(bitmaparray[firstClickId] == bitmaparray[secondClickId]){
                             v.setEnabled(false);
-                            System.out.println("Matches");
-                            mp.start();
+                            successSound.start();
 
                             // if match, increase counter
                             counter++;
@@ -136,9 +139,9 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                         }
                         //if the pictures does not match
                         else {
+                                wrongSound.start();
                                 ImageView v1 = findViewById(viewId_list[firstClickId]);
                                 v1.setEnabled(true);
-                                System.out.println("No Match");
                                 clickCounter++;
 
                                 // if no match, change both images back to question marks
