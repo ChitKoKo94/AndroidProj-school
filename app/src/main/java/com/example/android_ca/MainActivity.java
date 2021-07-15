@@ -2,6 +2,7 @@ package com.example.android_ca;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -28,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
     protected List<String> img_list = new ArrayList<>();
     protected Thread bkgThread;
+    private Intent musicIntent;
+
+
+
 
     int[] viewId_list = {
             R.id.imageView11,R.id.imageView12,R.id.imageView13,R.id.imageView14,R.id.imageView21,
@@ -40,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //background music
+        musicIntent = new Intent(getApplicationContext(), MusicService.class);
+        startService(new Intent(getApplicationContext(), MusicService.class));
+
 
         Button b1=findViewById(R.id.tag_flower);
         Button b2=findViewById(R.id.tag_love);
@@ -83,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button fetch = findViewById(R.id.fetch);
         if (fetch != null){
+
             fetch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
@@ -90,8 +101,10 @@ public class MainActivity extends AppCompatActivity {
                     img_list.clear();
                     EditText req_url = findViewById(R.id.url);
                     String url = req_url.getText().toString();
-                    if (bkgThread != null) {
+                    if (bkgThread != null)
                         bkgThread.interrupt();
+                    {
+
 
                         runOnUiThread(new Runnable() {
                             @Override
@@ -110,10 +123,12 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
+
                                 Document document = Jsoup.connect(url).get();
                                 Elements tags = document.getElementsByTag("img");
                                 String src;
                                 for(int i=0; i<tags.size(); i++){
+
 
 
                                     src = tags.get(i).attr("src");
@@ -141,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         ProgressBar probar = findViewById(R.id.probar);
 
         for(int i=0; i<20; i++){
+
             String destFilename = UUID.randomUUID().toString() + imglist.get(i).lastIndexOf(".") + i;
             File destFile = new File(dir, destFilename);
             destFile_list.add(destFile);
@@ -148,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
 
         ImageDownloader imgDL = new ImageDownloader();
         for (int k = 0; k < 20; k++) {
+            if(bkgThread.isInterrupted())
+                return;
 
 
             if (imgDL.downloadImages(imglist.get(k), destFile_list.get(k))) {
@@ -155,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(bkgThread.isInterrupted())
-                            return;
+
+
 
                         Bitmap bitmap = BitmapFactory.decodeFile(destFile_list.get(finalK).getAbsolutePath());
                         ImageView imageView = findViewById(viewId_list[finalK]);
