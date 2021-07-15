@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+
     //main vertical layout , including 7 rows vertically.
     //first row has url text box and fetch btn
     //next 5 rows contain 4 imageViews each horizontally
@@ -34,6 +36,47 @@
             android:textAllCaps="false"/>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/url"
+        android:id="@+id/tags"
+        >
+
+        <Button
+            android:id="@+id/tag_flower"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tag_f" />
+        <Button
+            android:id="@+id/tag_love"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="@string/tag_l"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            />
+        <Button
+            android:id="@+id/tag_biz"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="@string/tag_b"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            />
+        <Button
+            android:id="@+id/tag_travel"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="@string/tag_t"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
     protected List<String> img_list = new ArrayList<>();
     protected Thread bkgThread;
+    private Intent musicIntent;
+
+
+
 
     int[] viewId_list = {
             R.id.imageView11,R.id.imageView12,R.id.imageView13,R.id.imageView14,R.id.imageView21,
@@ -54,11 +59,19 @@ public class MainActivity extends AppCompatActivity {
 
         String URL = "https://stocksnap.io";
 
+        //music
+        musicIntent = new Intent(getApplicationContext(), MusicService.class);
+        startService(new Intent(getApplicationContext(), MusicService.class));
+
+
         Button fetch = findViewById(R.id.fetch);
         if (fetch != null){
             fetch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
+                    img_list.clear();
+                    EditText req_url = findViewById(R.id.url);
+                    String url = req_url.getText().toString();
                     if (bkgThread != null) {
                         bkgThread.interrupt();
                         for(int p=0; p<20; p++) {

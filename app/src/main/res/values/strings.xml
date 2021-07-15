@@ -9,4 +9,9 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="tag_f">Flower</string>
+    <string name="tag_l">Love</string>
+    <string name="tag_t">Travel</string>
+    <string name="tag_b">Business</string>
+
 </resources>
