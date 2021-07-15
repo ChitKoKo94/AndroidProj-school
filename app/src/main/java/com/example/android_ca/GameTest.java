@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
     private int[] viewId_list;
     Bitmap[] originalArray = new Bitmap[12];
     private int counter;
+    private int clickCounter = 0;
     private Chronometer chronometer;
 
     @Override
@@ -66,8 +68,7 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
         for (int j =0; j < 12; j++){
             ImageView v = (ImageView)findViewById(viewId_list[j]);
             v.setImageBitmap(originalArray[j]);
-            chronometer = (Chronometer) findViewById(R.id.chronometer);
-            chronometer.setOnChronometerTickListener(this);
+
             v.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
@@ -104,6 +105,8 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                                 v1.setEnabled(true);
                                 System.out.println("No Match");
 
+                                clickCounter++;
+
                                 // if no match, change both images back to question marks
                                 originalArray[firstClickId] = questionMarkPicture;
                                 originalArray[secondClickId] = questionMarkPicture;
@@ -127,7 +130,16 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                                 firstClickId = k;
                                 v.setEnabled(false);
                                 System.out.println("FirstClick");
-                                chronometer.start();
+
+                                // start timer
+                                if (clickCounter == 0) {
+                                    chronometer = (Chronometer) findViewById(R.id.chronometer);
+                                    chronometer.setOnChronometerTickListener(GameTest.this);
+                                    chronometer.start();
+                                    chronometer.setBase(SystemClock.elapsedRealtime());// reset
+                                }
+
+                                clickCounter++;
 
                                 // flip image for first click
                                 originalArray[firstClickId] = duplicatedImgs.get(firstClickId);
