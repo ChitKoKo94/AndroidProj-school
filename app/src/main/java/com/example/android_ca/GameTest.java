@@ -2,6 +2,7 @@ package com.example.android_ca;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -189,7 +190,16 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
     }
 
     private void endGame() {
-        Toast.makeText(this, "Game ended!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Game ended!", Toast.LENGTH_SHORT).show();
+
+        int temp0 = Integer.parseInt(chronometer.getText().toString().split(":")[0]);
+        int temp1 =Integer.parseInt(chronometer.getText().toString().split(":")[1]);
+        int temp=temp0*60+temp1;
+
+        Intent intent = new Intent(this, GameEnd.class);
+        String finalMessage = "Well done! You completed the game in " + temp + " seconds";
+        intent.putExtra("message", finalMessage);
+        startActivity(intent);
     }
 
     @Override
