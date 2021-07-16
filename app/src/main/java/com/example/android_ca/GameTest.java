@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +45,17 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
         stopService(new Intent(getApplicationContext(), MusicService.class));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_test);
+
+        //Show who is player
+        Intent intent = getIntent();
+        int player1 = intent.getIntExtra("P1Timing", 0);
+        TextView player = findViewById(R.id.player);
+        if (player1 != 0)
+            //player 2 is playing
+            player.setText("PLAYER 2");
+        else
+            //player 1 is player
+            player.setText("PLAYER 1");
 
         //get the 6 saved images
         getSelectedImgs();
@@ -112,13 +125,10 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
                                 temp1 = Integer.parseInt(chronometer.getText().toString().split(":")[1]);
                                 temp  = temp0*60+temp1;
 
+                                Intent intentToGameEnd = new Intent(GameTest.this,GameEnd.class);
 
                                 // check if the second player is currently playing by checking if player1's timing
                                 //has been passed from the end game screen
-                                Intent intent = getIntent();
-                                int player1 = intent.getIntExtra("P1Timing", 0);
-                                Intent intentToGameEnd = new Intent(GameTest.this,GameEnd.class);
-
                                 if (player1 != 0){
                                     if(player1 < temp)
                                         winner = "PLAYER 1 WINS";

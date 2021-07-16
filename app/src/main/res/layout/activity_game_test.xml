@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.7"
+        android:layout_weight="0.4"
         android:orientation="horizontal"
         android:padding="12dp"
         android:gravity="center">
@@ -18,19 +18,39 @@
             android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:textSize="23sp"
-            android:textColor="#ffffff"
+            android:gravity="left"
             android:text="0 of 6 images matched"
-            android:gravity="left"/>
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="23sp" />
 
         <Chronometer
             android:id="@+id/chronometer"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:textColor="#ffffff"
-            android:textSize="23sp"
-            android:gravity="right"/>
+            android:textSize="23sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=" "
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="19sp" />
 
     </LinearLayout>
 
