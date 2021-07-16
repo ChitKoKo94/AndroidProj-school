@@ -28,18 +28,16 @@ public class GameTest extends AppCompatActivity implements Chronometer.OnChronom
     private List<Bitmap> selectedImgs = new ArrayList<>();
     private List<Bitmap> duplicatedImgs = new ArrayList<>();
     private Bitmap[] bitmaparray = new Bitmap[12];
-    private int firstClickId = -1;
-    private int secondClickId = -1;
-    Bitmap[] originalArray = new Bitmap[12];
-    private int clickCounter = 0;
+    private Bitmap[] originalArray = new Bitmap[12];
+    private int firstClickId = -1, secondClickId = -1, clickCounter = 0, temp0, temp1, temp, counter;
     private Chronometer chronometer;
-    private int temp0, temp1, temp, counter;
     private String winner;
     private int[] viewId_list = {
         R.id.A1, R.id.A2, R.id.A3, R.id.A4, R.id.A5,
                 R.id.A6, R.id.A7, R.id.A8, R.id.A9, R.id.A10,
                 R.id.A11, R.id.A12
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         stopService(new Intent(getApplicationContext(), MusicService.class));

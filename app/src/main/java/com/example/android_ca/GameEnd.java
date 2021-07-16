@@ -43,12 +43,13 @@ public class GameEnd extends AppCompatActivity {
         Boolean pvp = intent.getBooleanExtra("pvp", false);
 
         // if pvp = true, it means this is the end of second player, hide Player2 button.
-        // if pvp = false, it means this is the end of player 1 turn, we show mutiplayer option
+        // if pvp = false, it means this is the end of player 1 turn, we show multiplayer option
         if (pvp)
             player2.setVisibility(View.INVISIBLE);
         else
             player2.setVisibility(View.VISIBLE);
 
+        // restart the game meant for the next player to play
         player2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +76,7 @@ public class GameEnd extends AppCompatActivity {
             }
         });
 
-        //main buttons returns to image retrieval page
+        //main button returns to image retrieval page
         main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

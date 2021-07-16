@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             fetch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
-                    //prevent misclick
+                    //prevent double clicks
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 800) {
                         return;
                     }
@@ -75,11 +75,13 @@ public class MainActivity extends AppCompatActivity {
                     if(!destFile_list.isEmpty())
                         destFile_list.clear();
 
+                    // load all default images while images from link being downloaded
                     for(int i:viewId_list){
                         ImageView img = findViewById(i);
                         img.setVisibility(View.VISIBLE);
                     }
-                    //ensure that the list of images is empty before download start
+
+                    //ensure that the list of image urls is empty before download start
                     img_list.clear();
                     EditText req_url = findViewById(R.id.url);
                     String url = req_url.getText().toString();
@@ -141,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         //set borders when selecting images
         Drawable border = getDrawable( R.drawable.border);
         //set clicking sound
-        final MediaPlayer mp=MediaPlayer.create(this,R.raw.click_sound);
+        final MediaPlayer mp = MediaPlayer.create(this,R.raw.click_sound);
         //set on click listener to the downloaded images
         for(int id: viewId_list)
         {
@@ -149,12 +151,13 @@ public class MainActivity extends AppCompatActivity {
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //start background music
                     mp.start();
                     //unselect Image
                     if (selectedImgs.contains(img)) {
                         selectedImgs.remove(img);
                         img.setBackgroundResource(0);
-                    //select iamge
+                    //select image
                     } else {
                         selectedImgs.add(img);
                         img.setBackground(border);
@@ -170,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            //navigation button to select other image catogries
+            //navigation buttons to select other image categories
             Button b1=findViewById(R.id.tag_flower);
             Button b2=findViewById(R.id.tag_love);
             Button b3=findViewById(R.id.tag_biz);
@@ -227,8 +230,10 @@ public class MainActivity extends AppCompatActivity {
             destFile_list.add(destFile);
         }
 
+        // use downloadImages method from ImageDownloader class to download images 1 by 1
         ImageDownloader imgDL = new ImageDownloader();
         for (int k = 0; k < imglist.size(); k++) {
+            // check the interruption of the thread before downloading an image
             if (!canDownload) {
                 break;
             }
