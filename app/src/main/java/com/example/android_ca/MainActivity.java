@@ -183,6 +183,10 @@ public class MainActivity extends AppCompatActivity {
             b1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 800) {
+                        return;
+                    }
+
                     String url="https://stocksnap.io/search/flower";
                     req_url.setText(url);
                     fetch.performClick();
@@ -192,6 +196,10 @@ public class MainActivity extends AppCompatActivity {
             b2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 800) {
+                        return;
+                    }
+
                     String url="https://stocksnap.io/search/love";
                     req_url.setText(url);
                     fetch.performClick();
@@ -201,6 +209,10 @@ public class MainActivity extends AppCompatActivity {
             b3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 800) {
+                        return;
+                    }
+
                     String url="https://stocksnap.io/search/business";
                     req_url.setText(url);
                     fetch.performClick();
@@ -209,6 +221,10 @@ public class MainActivity extends AppCompatActivity {
             b4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 800) {
+                        return;
+                    }
+
                     String url="https://stocksnap.io/search/travel";
                     req_url.setText(url);
                     fetch.performClick();
