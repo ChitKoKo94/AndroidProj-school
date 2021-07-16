@@ -66,9 +66,12 @@ public class GameEnd extends AppCompatActivity {
         restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GameEnd.this, GameTest.class);
+                //reset timings
+                int p1time = 0;
+                Intent intentToGameTest = new Intent(GameEnd.this, GameTest.class);
+                intentToGameTest.putExtra("P1Timing", p1time);
                 finish();
-                startActivity(intent);
+                startActivity(intentToGameTest);
             }
         });
 
@@ -76,9 +79,12 @@ public class GameEnd extends AppCompatActivity {
         main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GameEnd.this, MainActivity.class);
+                //reset timings
+                int p1time = 0;
+                Intent intentToGameTest = new Intent(GameEnd.this, MainActivity.class);
+                intentToGameTest.putExtra("P1Timing", p1time);
                 finish();
-                startActivity(intent);
+                startActivity(intentToGameTest);
             }
         });
     }

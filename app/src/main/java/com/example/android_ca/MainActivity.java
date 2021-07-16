@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,10 +34,10 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
 
     private static final String EXTENSION_PATTERN = "([^\\s]+(\\.(?i)(jpg|png))$)";
-    List<String> list = new ArrayList<>();
+    private List<String> list = new ArrayList<>();
     private boolean canDownload = true;
-    ArrayList<ImageView> selectedImgs = new ArrayList<ImageView>();
-
+    private ArrayList<ImageView> selectedImgs = new ArrayList<ImageView>();
+    private long mLastClickTime = 0;
     protected List<String> img_list = new ArrayList<>();
     protected Thread bkgThread;
     private Intent musicIntent;
@@ -60,10 +61,17 @@ public class MainActivity extends AppCompatActivity {
 
         //Adding function to the "Fetch" button
         Button fetch = findViewById(R.id.fetch);
+
         if (fetch != null){
             fetch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
+                    //prevent misclick
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 800) {
+                        return;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();
+
                     for(int i:viewId_list){
                         ImageView img = findViewById(i);
                         img.setVisibility(View.VISIBLE);
