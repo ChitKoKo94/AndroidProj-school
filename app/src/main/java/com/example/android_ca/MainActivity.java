@@ -33,12 +33,12 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String EXTENSION_PATTERN = "([^\\s]+(\\.(?i)(jpg|png))$)";
     private List<String> list = new ArrayList<>();
-    private boolean canDownload = true;
-    private ArrayList<ImageView> selectedImgs = new ArrayList<ImageView>();
-    private long mLastClickTime = 0;
+    private List<File> destFile_list = new ArrayList<>();
     protected List<String> img_list = new ArrayList<>();
+    private ArrayList<ImageView> selectedImgs = new ArrayList<ImageView>();
+    private boolean canDownload = true;
+    private long mLastClickTime = 0;
     protected Thread bkgThread;
     private Intent musicIntent;
 
@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             R.id.imageView33,R.id.imageView34,R.id.imageView41,R.id.imageView42,R.id.imageView43,
             R.id.imageView44,R.id.imageView51,R.id.imageView52,R.id.imageView53,R.id.imageView54
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                     mLastClickTime = SystemClock.elapsedRealtime();
 
+                    //clear image files if fetching is not the first time
+                    if(!destFile_list.isEmpty())
+                        destFile_list.clear();
+
                     for(int i:viewId_list){
                         ImageView img = findViewById(i);
                         img.setVisibility(View.VISIBLE);
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     EditText req_url = findViewById(R.id.url);
                     String url = req_url.getText().toString();
 
-                    //if there is a background thread running, we instrupt the background thread.
+                    //if there is a background thread running, we interrupt the background thread.
                     if (bkgThread != null) {
                         bkgThread.interrupt();
                         //reset image place holders
@@ -215,7 +218,6 @@ public class MainActivity extends AppCompatActivity {
     //Downloading the 20 images
     protected void startDownloadImage(List<String> imglist){
         File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        List<File> destFile_list = new ArrayList<>();
         TextView status = findViewById(R.id.protext);
         ProgressBar probar = findViewById(R.id.probar);
 
