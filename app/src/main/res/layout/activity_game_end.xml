@@ -66,16 +66,14 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="Replay"
-        android:textAllCaps="false"
-        android:visibility="invisible"/>
+        android:textAllCaps="false" />
 
     <Button
         android:id = "@+id/restartMainButton"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="Back to Main"
-        android:textAllCaps="false"
-        android:visibility="invisible"/>
+        android:textAllCaps="false" />
 
     </LinearLayout>
 

@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,8 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,46 +54,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button b1=findViewById(R.id.tag_flower);
-        Button b2=findViewById(R.id.tag_love);
-        Button b3=findViewById(R.id.tag_biz);
-        Button b4=findViewById(R.id.tag_travel);
-        EditText req_url=findViewById(R.id.url);
-
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url="https://stocksnap.io/search/flower";
-                req_url.setText(url);
-            }
-        });
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url="https://stocksnap.io/search/love";
-                req_url.setText(url);
-
-            }
-        });
-        b3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url="https://stocksnap.io/search/business";
-                req_url.setText(url);
-            }
-        });
-        b4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url="https://stocksnap.io/search/travel";
-                req_url.setText(url);
-            }
-        });
-
         //music
         musicIntent = new Intent(getApplicationContext(), MusicService.class);
         startService(new Intent(getApplicationContext(), MusicService.class));
 
+        //Adding function to the "Fetch" button
         Button fetch = findViewById(R.id.fetch);
         if (fetch != null){
             fetch.setOnClickListener(new View.OnClickListener() {
@@ -105,45 +68,57 @@ public class MainActivity extends AppCompatActivity {
                         ImageView img = findViewById(i);
                         img.setVisibility(View.VISIBLE);
                     }
-
+                    //ensure that the list of images is empty before download start
                     img_list.clear();
                     EditText req_url = findViewById(R.id.url);
                     String url = req_url.getText().toString();
+
+                    //if there is a background thread running, we instrupt the background thread.
                     if (bkgThread != null) {
                         bkgThread.interrupt();
+                        //reset image place holders
                         for(int p=0; p<20; p++) {
                             ImageView imageView = findViewById(viewId_list[p]);
                             imageView.setImageDrawable(getDrawable(R.drawable.sample));
                         }
                     } else {
+                        //reset image placeholders
                         for (int p = 0; p < 20; p++) {
                             ImageView imageView = findViewById(viewId_list[p]);
                             imageView.setImageDrawable(getDrawable(R.drawable.sample));
                         }
                     }
+
+                    //starting the background thread to download images whenever "fetch" is clicked
                     bkgThread = new Thread(new Runnable() {
                         @Override
                         public void run() {
                             img_list.clear();
                             if(bkgThread.isInterrupted()){
+                                //boolean to check if can start download or not.
+                                //if thread is interrupted, stop download
                                 canDownload = false;
                                 return;
                             }
+                            //using Jsoup library method to find the image urls
                             try {
                                 Document document = Jsoup.connect(url).get();
                                 Elements tags = document.getElementsByTag("img");
                                 String src;
                                 for(int i=0; i<tags.size(); i++){
                                     src = tags.get(i).attr("src");
+                                    //looking for .png and .jpg files
                                     if (src.contains(".png") || src.contains(".jpg")){
                                         img_list.add(src);
                                     }
+                                    //once 20 images found, break;
                                     if (img_list.size() == 20) break;
                                 }
                             } catch (IOException e){
                                 e.printStackTrace();
                             }
                             canDownload = true;
+                            // start download images
                             startDownloadImage(img_list);
                         }
                     });
@@ -152,9 +127,11 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-
+        //set borders when selecting images
         Drawable border = getDrawable( R.drawable.border);
+        //set clicking sound
         final MediaPlayer mp=MediaPlayer.create(this,R.raw.click_sound);
+        //set on click listener to the downloaded images
         for(int id: viewId_list)
         {
             ImageView img = (ImageView)findViewById(id);
@@ -162,14 +139,17 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     mp.start();
+                    //unselect Image
                     if (selectedImgs.contains(img)) {
                         selectedImgs.remove(img);
                         img.setBackgroundResource(0);
+                    //select iamge
                     } else {
                         selectedImgs.add(img);
                         img.setBackground(border);
                     }
 
+                    //start next activity upon choosing 6th image
                     if (selectedImgs.size() == 6) {
                         saveImgs();
                         Intent intent = new Intent(MainActivity.this, GameTest.class);
@@ -178,10 +158,53 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            //navigation button to select other image catogries
+            Button b1=findViewById(R.id.tag_flower);
+            Button b2=findViewById(R.id.tag_love);
+            Button b3=findViewById(R.id.tag_biz);
+            Button b4=findViewById(R.id.tag_travel);
+            EditText req_url=findViewById(R.id.url);
+
+            b1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url="https://stocksnap.io/search/flower";
+                    req_url.setText(url);
+                    fetch.performClick();
+
+                }
+            });
+            b2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url="https://stocksnap.io/search/love";
+                    req_url.setText(url);
+                    fetch.performClick();
+
+                }
+            });
+            b3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url="https://stocksnap.io/search/business";
+                    req_url.setText(url);
+                    fetch.performClick();
+                }
+            });
+            b4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url="https://stocksnap.io/search/travel";
+                    req_url.setText(url);
+                    fetch.performClick();
+                }
+            });
         }
 
     }
 
+    //Downloading the 20 images
     protected void startDownloadImage(List<String> imglist){
         File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         List<File> destFile_list = new ArrayList<>();
@@ -216,9 +239,9 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
-        canDownload = true;
     }
 
+    //save the 6 select images to internal storage
     private void saveImgs(){
         for (int i = 0; i<6; i++){
             String imageName ="image" +i;

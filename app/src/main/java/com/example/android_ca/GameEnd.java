@@ -20,35 +20,34 @@ public class GameEnd extends AppCompatActivity {
         final MediaPlayer mp=MediaPlayer.create(this,R.raw.complete);
         mp.start();
 
+        //check if there is a winner, and display winner
         Intent intent = getIntent();
-
         TextView winner = findViewById(R.id.winner);
         String winWho = intent.getStringExtra("winner");
         if (winWho != null)
             winner.setText(winWho);
 
+        //display completion message and player's timing
         String finalMessage = intent.getStringExtra("message");
         TextView text = findViewById(R.id.timingMessage);
         if (text != null) {
             text.setText(finalMessage);
         }
 
+        //display options after game ends
         Button player2 = findViewById(R.id.player2);
         Button restart = findViewById(R.id.restartGameButton);
         Button main = findViewById(R.id.restartMainButton);
 
-        //check if currently it is the end of the second palyer's turn
+        //check if currently it is the end of the second player's turn
         Boolean pvp = intent.getBooleanExtra("pvp", false);
 
-        // if pvp = true means this is the end of second player, hide Player2 button
-        // if pvp = false means this is the end of player 1 turn, we show Player2 button to play
+        // if pvp = true, it means this is the end of second player, hide Player2 button.
+        // if pvp = false, it means this is the end of player 1 turn, we show mutiplayer option
         if (pvp)
             player2.setVisibility(View.INVISIBLE);
         else
             player2.setVisibility(View.VISIBLE);
-
-        main.setVisibility(View.VISIBLE);
-        restart.setVisibility(View.VISIBLE);
 
         player2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +72,7 @@ public class GameEnd extends AppCompatActivity {
             }
         });
 
+        //main buttons returns to image retrieval page
         main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
